@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Form - Unit 3</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            width: 60%; 
+            margin: auto; 
+            padding-top: 20px;
+        }
+        form {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Contact Us</h2>
+
+<!-- GET Preview -->
+<form method="GET">
+    <h3>Preview Your Data</h3>
+    <label>Name:</label>
+    <input type="text" name="pname">
+
+    <label>Email:</label>
+    <input type="email" name="pemail">
+
+    <label>Phone:</label>
+    <input type="text" name="pphone">
+
+    <label>Message:</label>
+    <textarea name="pmessage"></textarea>
+
+    <button type="submit">Preview</button>
+</form>
+
+<hr>
+
+<!-- Display GET Preview -->
+<h3>Preview Result</h3>
+<p><strong>Name:</strong> 
+    <?php echo $_GET['pname'] ?? ''; ?>
+</p>
+<p><strong>Email:</strong> 
+    <?php echo $_GET['pemail'] ?? ''; ?>
+</p>
+<p><strong>Phone:</strong> 
+    <?php echo $_GET['pphone'] ?? ''; ?>
+</p>
+<p><strong>Message:</strong> 
+    <?php echo $_GET['pmessage'] ?? ''; ?>
+</p>
+
+<hr>
+
+<!-- POST Form -->
+<form method="POST" onsubmit="return validateForm()">
+
+    <h3>Final Contact Form</h3>
+
+    <label>Name:</label>
+    <input type="text" id="name" name="name">
+    <p id="nameError" class="error"></p>
+
+    <label>Email:</label>
+    <input type="text" id="email" name="email">
+    <p id="emailError" class="error"></p>
+
+    <label>Phone:</label>
+    <input type="text" id="phone" name="phone">
+    <p id="phoneError" class="error"></p>
+
+    <label>Message:</label>
+    <textarea id="message" name="message"></textarea>
+    <p id="messageError" class="error"></p>
+
+    <label>Preferred Contact Method:</label>
+    <input type="radio" name="method" value="Email"> Email
+    <input type="radio" name="method" value="Phone"> Phone
+    <input type="radio" name="method" value="Both"> Both
+
+    <br><br>
+
+    <label>Inquiry Type:</label>
+    <select name="inquiry">
+        <option value="General Inquiry">General Inquiry</option>
+        <option value="Support Request">Support Request</option>
+        <option value="Feedback">Feedback</option>
+    </select>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+function validateForm() {
+    let valid = true;
+
+    // Get values
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let message = document.getElementById("message").value.trim();
+
+    // Clear old errors
+    document.getElementById("nameError").innerHTML = "";
+    document.getElementById("emailError").innerHTML = "";
+    document.getElementById("phoneError").innerHTML = "";
+    document.getElementById("messageError").innerHTML = "";
+
+    // Validate name
+    if (name === "") {
+        document.getElementById("nameError").innerHTML = "Name is required.";
+        valid = false;
+    }
+
+    // Validate email
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        document.getElementById("emailError").innerHTML = "Enter a valid email.";
+        valid = false;
+    }
+
+    // Validate phone (10 digits)
+    let phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(phone)) {
+        document.getElementById("phoneError").innerHTML = "Phone must be 10 digits.";
+        valid = false;
+    }
+
+    // Validate message
+    if (message === "") {
+        document.getElementById("messageError").innerHTML = "Message cannot be empty.";
+        valid = false;
+    }
+
+    return valid;
+}
+</script>
+
+</body>
+</html>
